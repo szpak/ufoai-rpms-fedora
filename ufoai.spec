@@ -1,15 +1,18 @@
+#TODO: remove in 2.5 final
+%define		devModifier	-dev
+
 Name:		ufoai
-Version:	2.4
-Release:	1%{?dist}
+Version:	2.5
+Release:	0.1.2013117git%{?dist}
 Summary:	UFO: Alien Invasion
 
 Group:		Amusements/Games
 License:	GPLv2+
 URL:		http://ufoai.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}-source.tar.bz2
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}%{devModifier}-source.tar.bz2
 Source1:	%{name}-wrapper.sh
 Source2:	uforadiant-wrapper.sh
-Patch0:		ufoai-2.3-desktop-files.patch
+Patch0:		ufoai-2.5-desktop-files.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -36,11 +39,12 @@ Requires:	%{name}-data-server = %{version}
 Summary:	UFO: Alien Invasion shared files
 
 
-%package doc
-Summary:	UFO: Alien Invasion user manual
-Group:		Documentation
-License:	GFDL
-BuildRequires:	tetex-latex
+# Temporarily disabled - tetex-latex needs hundreds of sub packages
+#%package doc
+#Summary:	UFO: Alien Invasion user manual
+#Group:		Documentation
+#License:	GFDL
+#BuildRequires:	tetex-latex
 
 
 %package server
@@ -80,12 +84,13 @@ this very moment.
 This package contains files common both to the client and the server.
 
 
-%description doc
-UFO: ALIEN INVASION is a strategy game featuring tactical combat
-against hostile alien forces which are about to infiltrate earth at
-this very moment.
-
-This package contains the user manual for the game.
+# Temporarily disabled - tetex-latex needs hundreds of sub packages
+#%description doc
+#UFO: ALIEN INVASION is a strategy game featuring tactical combat
+#against hostile alien forces which are about to infiltrate earth at
+#this very moment.
+#
+#This package contains the user manual for the game.
 
 
 %description server
@@ -113,14 +118,14 @@ This package contains the UFORadiant map editor.
 
 
 %prep
-%setup -q -n %{name}-%{version}-source
-# ufoai-2.3-desktop-files.patch - fix executable and icon names
-%patch0 -p0
-# maps and models are in ufoai-data package, do not try to build them
+%setup -q -n %{name}-%{version}%{devModifier}-source
+# ufoai-2.5-desktop-files.patch - fix executable and icon names
+%patch0 -p1
 sed -i -e "/maps.mk/d" Makefile
 sed -i -e "/models.mk/d" Makefile
 # we don't use any of the installers
-sed -i -e "/install.mk/d" Makefile
+#sed -i -e "/install.mk/d" Makefile
+#TODO: Disable also "mojo install"
 
 
 %build
@@ -141,8 +146,9 @@ sed -i -e "/install.mk/d" Makefile
 make %{?_smp_mflags}
 make %{?_smp_mflags} lang
 
+# Temporarily disabled - tetex-latex needs hundreds of sub packages
 # build documentation
-make %{?_smp_mflags} manual
+#make %{?_smp_mflags} manual
 
 # build uforadiant
 make %{?_smp_mflags} uforadiant
@@ -154,7 +160,7 @@ rm -rf %{buildroot}
 #   make install_exec DESTDIR=%%{buildroot}
 # simply because it does not work ...
 
-## client
+### client
 install -D -m 0755 ufo %{buildroot}%{_bindir}/ufo
 install -p -m 0755 %{SOURCE1} %{buildroot}%{_bindir}
 install -D -m 0644 debian/ufo.6 %{buildroot}%{_mandir}/man6/ufo.6
@@ -164,30 +170,32 @@ cp -pr base/i18n/* %{buildroot}%{_datadir}/locale/
 install -D -m 0644 debian/%{name}.xpm %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{name}.xpm
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications debian/ufoai.desktop
 
-## install common
+### install common
 install -D -m 0755 base/game.so %{buildroot}%{_libdir}/%{name}/game.so
 
 ## install doc
 mkdir -p -m 0755 %{buildroot}%{_docdir}/%{name}-%{version}
-cp -pr README COPYING src/docs/tex/*.pdf %{buildroot}%{_docdir}/%{name}-%{version}/
+# Temporarily disabled - tetex-latex needs hundreds of sub packages
+#cp -pr README COPYING src/docs/tex/*.pdf %{buildroot}%{_docdir}/%{name}-%{version}/
+cp -pr README COPYING %{buildroot}%{_docdir}/%{name}-%{version}/
 
-## install server
+### install server
 install -D -m 0755 ufoded %{buildroot}%{_bindir}
 install -D -m 0644 debian/ufoded.6 %{buildroot}%{_mandir}/man6/ufoded.6
 install -D -m 0644 debian/ufoded.xpm %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/ufoded.xpm
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications debian/ufoded.desktop
 
-## install tools
+### install tools
 install -D -m 0755 ufo2map %{buildroot}%{_bindir}
 install -D -m 0644 debian/ufo2map.6 %{buildroot}%{_mandir}/man6/ufo2map.6
 install -D -m 0755 ufomodel %{buildroot}%{_bindir}
 install -D -m 0755 ufoslicer %{buildroot}%{_bindir}
 install -D src/tools/blender/md2tag_export.py %{buildroot}%{_datadir}/%{name}/tools/md2tag_export.py
-# not available in our sources
-#install -D -m 0644 contrib/scripts/bashcompletion/ufo2map %%{buildroot}%%{_sysconfdir}/bash_completion.d/ufo2map
-#install -D -m 0644 contrib/scripts/bashcompletion/ufomodel %%{buildroot}%%{_sysconfdir}/bash_completion.d/ufomodel
+## not available in our sources
+##install -D -m 0644 contrib/scripts/bashcompletion/ufo2map %%{buildroot}%%{_sysconfdir}/bash_completion.d/ufo2map
+##install -D -m 0644 contrib/scripts/bashcompletion/ufomodel %%{buildroot}%%{_sysconfdir}/bash_completion.d/ufomodel
 
-## install uforadiant
+### install uforadiant
 install -D -m 0755 radiant/uforadiant %{buildroot}%{_bindir}/uforadiant
 install -p -m 0755 %{SOURCE2} %{buildroot}%{_bindir}
 install -D -m 0644 debian/uforadiant.6 %{buildroot}%{_mandir}/man6/uforadiant.6
@@ -201,7 +209,6 @@ cp -pr radiant/i18n/* %{buildroot}%{_datadir}/locale/
 %find_lang uforadiant
 install -D -m 0644 debian/uforadiant.xpm %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/uforadiant.xpm
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications debian/uforadiant.desktop
-
 
 %clean
 rm -rf %{buildroot}
@@ -270,10 +277,11 @@ fi
 %dir %{_datadir}/icons/hicolor/32x32/apps/
 
 
-%files doc
-%defattr(-,root,root,-)
-%dir %{_docdir}/%{name}-%{version}
-%lang(en) %doc %{_docdir}/%{name}-%{version}/ufo-manual_EN.pdf
+# Temporarily disabled - tetex-latex needs hundreds of sub packages
+#%files doc
+#%defattr(-,root,root,-)
+#%dir %{_docdir}/%{name}-%{version}
+#%lang(en) %doc %{_docdir}/%{name}-%{version}/ufo-manual_EN.pdf
 
 
 %files server
@@ -307,6 +315,9 @@ fi
 
 
 %changelog
+* Sun Nov 24 2013 Marcin Zajaczkowski <mszpak ATT wp DOTT pl> - 2.5-0.1.2013117git
+- Update to 2.5-dev (doc package temporarily disabled)
+
 * Fri Jun 29 2012 Karel Volny <kvolny@redhat.com> 2.4-1
 - Version bump
 - Changelog: http://ufoai.org/wiki/index.php/Changelog/2.4

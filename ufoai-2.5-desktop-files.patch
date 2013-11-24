@@ -1,0 +1,50 @@
+diff --git a/debian/ufoai.desktop b/debian/ufoai.desktop
+index 2bccdf6..7e15631 100644
+--- a/debian/ufoai.desktop
++++ b/debian/ufoai.desktop
+@@ -5,8 +5,8 @@ Name=UFO: Alien Invasion
+ GenericName=UFO: Alien Invasion
+ Comment=Turn-based tactical combat against hostile alien forces
+ Comment[de_DE]=Rundenbasiertes Taktikspiel
+-Exec=/usr/games/ufo
+-Icon=ufoai.xpm
++Exec=ufo
++Icon=ufoai
+ Terminal=false
+ Type=Application
+ Categories=Application;Game;StrategyGame;
+diff --git a/debian/ufoded.desktop b/debian/ufoded.desktop
+index bdb0b42..a8397f4 100644
+--- a/debian/ufoded.desktop
++++ b/debian/ufoded.desktop
+@@ -5,8 +5,8 @@ Name=UFO: AI Dedicated Server
+ GenericName=UFO: AI Dedicated Server
+ Comment=Turn-based tactical combat against hostile alien forces (server)
+ Comment[de_DE]=Rundenbasiertes Taktikspiel (Server)
+-Exec=/usr/games/ufoded
+-Icon=ufoded.xpm
++Exec=ufoded
++Icon=ufoded
+ Terminal=true
+ Type=Application
+ Categories=Application;Game;StrategyGame;
+diff --git a/debian/uforadiant.desktop b/debian/uforadiant.desktop
+index 46a75c5..f7ec030 100644
+--- a/debian/uforadiant.desktop
++++ b/debian/uforadiant.desktop
+@@ -5,11 +5,10 @@ Name=UFORadiant
+ GenericName=UFORadiant
+ Comment=Map Editor for UFO: Alien Invasion
+ Comment[de_DE]=Map Editor für UFO: Alien Invasion
+-Exec=/usr/games/uforadiant
+-Icon=uforadiant.xpm
++Exec=uforadiant
++Icon=uforadiant
+ Terminal=false
+-StartupNotify=false
+ Type=Application
+-Categories=Application;Game;StrategyGame;GTK;3DGraphics
+-MimeType=application/x-ufomap
++Categories=Application;Game;StrategyGame;GTK;3DGraphics;
++MimeType=application/x-ufomap;
+ StartupNotify=true

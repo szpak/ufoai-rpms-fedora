@@ -1,19 +1,14 @@
 %define game_name ufoai
 
 Name:		ufoai-data
-Version:	2.4
-Release:	1
+Version:	2.5
+Release:	0.1.2013117git
 Summary:	UFO: Alien Invasion data files
 
 Group:		Amusements/Games
 License:	GPLv2+
 URL:		http://ufoai.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{game_name}/%{game_name}-%{version}-data.tar
-# not included in the package, downloaded from
-# http://ufoai.git.sourceforge.net/git/gitweb.cgi?p=ufoai/ufoai;a=blob;f=base/videos/intro.ogm;h=f71651694d6397dec38ece7bd0b8aac304aa708d;hb=HEAD
-Source1:	intro.ogm
-# city maps hotfix
-Source2:	http://mattn.ninex.info/1maps.pk3
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -49,11 +44,6 @@ This package contains the data files needed to run the game server.
 rm -rf %{buildroot}
 mkdir -p -m 0755 %{buildroot}%{_datadir}/%{game_name}
 cp -pr base %{buildroot}%{_datadir}/%{game_name}/
-# introductory video not in data pack
-mkdir -p -m 0755 %{buildroot}%{_datadir}/%{game_name}/base/videos/
-install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/%{game_name}/base/videos/
-# city maps hotfix
-install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/%{game_name}/base/
 
 
 %clean
@@ -70,7 +60,7 @@ rm -rf %{buildroot}
 %{_datadir}/%{game_name}/base/0snd.pk3
 %{_datadir}/%{game_name}/base/0shaders.pk3
 %{_datadir}/%{game_name}/base/0textures.pk3
-%{_datadir}/%{game_name}/base/videos/
+%{_datadir}/%{game_name}/base/0videos.pk3
 
 
 %files server
@@ -80,11 +70,13 @@ rm -rf %{buildroot}
 %{_datadir}/%{game_name}/base/0base.pk3
 %{_datadir}/%{game_name}/base/0maps.pk3
 %{_datadir}/%{game_name}/base/0ufos.pk3
-# city maps hotfix
-%{_datadir}/%{game_name}/base/1maps.pk3
 
 
 %changelog
+* Sun Nov 24 2013 Marcin Zajaczkowski <mszpak ATT wp DOTT pl> - 2.5-0.1.2013117git
+- Update to 2.5-dev
+- Remove introductory video (removed also upstream)
+
 * Fri Jun 29 2012 Karel Volny <kvolny@redhat.com> 2.4-1
 - Version bump
 - Added introductory video
