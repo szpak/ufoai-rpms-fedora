@@ -1,4 +1,4 @@
-# UFO: Alient Invasion - devel RPM packages for Fedora
+# UFO: Alien Invasion - devel RPM packages for Fedora
 
 SPEC files for a set of RPM packages for a development 2.5 version of UFO: Alien Invasion for Fedora. It allows to test a new version on Fedora before its official release. The 2.5-final version will be (hopefully) available through RPM Fusion repository.
 
