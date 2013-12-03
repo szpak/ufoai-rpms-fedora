@@ -126,7 +126,7 @@ sed -i -e "/models.mk/d" Makefile
 # we don't use any of the installers
 #sed -i -e "/install.mk/d" Makefile
 #TODO: Disable also "mojo install"
-
+#TODO: Add license file also in other packages - always GPLv2+?
 
 %build
 # don't use %%configure, UFOAI doesn't like default configure options
